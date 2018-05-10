@@ -377,15 +377,6 @@ bool NeighOrch::addNeighbor(NeighborEntry neighborEntry, MacAddress macAddress)
         SWSS_LOG_NOTICE("Created neighbor %s on %s", macAddress.to_string().c_str(), alias.c_str());
         m_intfsOrch->increaseRouterIntfsRefCount(alias);
 
-        if (neighbor_entry.ip_address.addr_family == SAI_IP_ADDR_FAMILY_IPV4)
-        {
-            gCrmOrch->incCrmResUsedCounter(CrmResourceType::CRM_IPV4_NEIGHBOR);
-        }
-        else
-        {
-            gCrmOrch->incCrmResUsedCounter(CrmResourceType::CRM_IPV6_NEIGHBOR);
-        }
-
         if (!addNextHop(ip_address, alias))
         {
             status = sai_neighbor_api->remove_neighbor_entry(&neighbor_entry);
